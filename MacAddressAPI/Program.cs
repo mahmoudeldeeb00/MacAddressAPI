@@ -28,6 +28,15 @@ app.UseHttpsRedirection();
 app.UseCors("CorsPolicy");
 app.UseAuthorization();
 
+app.Use(async (context, next) =>
+{
+    if (context.Request.Path == "/")
+    {
+        context.Response.Redirect("/swagger/index.html");
+        return;
+    }
+    await next();
+});
 app.MapControllers();
 
 app.Run();
